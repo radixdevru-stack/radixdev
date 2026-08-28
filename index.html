@@ -283,15 +283,6 @@
             border-color: #7ea8d9;
             box-shadow: 0 12px 40px rgba(126, 168, 217, 0.06);
         }
-        .service-card .icon {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 28px;
-            font-weight: 500;
-            color: #7ea8d9;
-            display: block;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-        }
         .service-card h3 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 20px;
@@ -312,99 +303,141 @@
             padding-top: 12px;
             margin-top: 12px;
         }
-        .timeline {
+
+        /* ===== КОЛЕСО С DRAG И SCROLL ===== */
+        .portfolio-wheel-horizontal {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin: 30px auto 50px;
+            overflow: hidden;
+            padding: 20px 0;
+            cursor: grab;
+            touch-action: none;
+            user-select: none;
+        }
+
+        .portfolio-wheel-horizontal:active {
+            cursor: grabbing;
+        }
+
+        .wheel-track {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin: 20px 0 30px;
+            gap: 24px;
+            width: fit-content;
+            transition: none;
+            will-change: transform;
         }
-        .timeline-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 14px 20px;
-            background: rgba(255, 255, 255, 0.01);
-            border-left: 2px solid #1a2a3a;
-            border-radius: 0 16px 16px 0;
-            transition: 0.3s;
-            opacity: 0;
-            transform: translateX(-20px);
-            animation: slideIn 0.5s ease forwards;
+
+        .wheel-track.auto-scroll {
+            animation: wheelSpin 25s linear infinite;
         }
-        .timeline-item:nth-child(1) {
-            animation-delay: 0.04s;
+
+        .wheel-track.paused {
+            animation-play-state: paused;
         }
-        .timeline-item:nth-child(2) {
-            animation-delay: 0.08s;
-        }
-        .timeline-item:nth-child(3) {
-            animation-delay: 0.12s;
-        }
-        .timeline-item:nth-child(4) {
-            animation-delay: 0.16s;
-        }
-        .timeline-item:nth-child(5) {
-            animation-delay: 0.20s;
-        }
-        .timeline-item:nth-child(6) {
-            animation-delay: 0.24s;
-        }
-        .timeline-item:nth-child(7) {
-            animation-delay: 0.28s;
-        }
-        .timeline-item:nth-child(8) {
-            animation-delay: 0.32s;
-        }
-        .timeline-item:nth-child(9) {
-            animation-delay: 0.36s;
-        }
-        .timeline-item:nth-child(10) {
-            animation-delay: 0.40s;
-        }
-        @keyframes slideIn {
+
+        @keyframes wheelSpin {
             0% {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            100% {
-                opacity: 1;
                 transform: translateX(0);
             }
+            100% {
+                transform: translateX(-50%);
+            }
         }
-        .timeline-item:hover {
-            border-left-color: #7ea8d9;
+
+        .wheel-card {
+            min-width: 180px;
+            max-width: 180px;
             background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 20px;
+            padding: 18px 16px;
+            text-align: center;
+            transition: 0.3s;
+            flex-shrink: 0;
+            backdrop-filter: blur(4px);
         }
-        .timeline-item .year {
+
+        .wheel-card:hover {
+            border-color: #7ea8d9;
+            background: rgba(126, 168, 217, 0.04);
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(126, 168, 217, 0.06);
+        }
+
+        .wheel-card .year {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             color: #7ea8d9;
-            min-width: 50px;
+            display: block;
+            margin-bottom: 4px;
         }
-        .timeline-item .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #1a2a3a;
-            transition: 0.3s;
-        }
-        .timeline-item:hover .dot {
-            background: #7ea8d9;
-            box-shadow: 0 0 20px rgba(126, 168, 217, 0.2);
-        }
-        .timeline-item .info {
-            flex: 1;
-        }
-        .timeline-item .info h4 {
+
+        .wheel-card h4 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 16px;
+            font-size: 17px;
             color: #fff;
+            margin-bottom: 2px;
         }
-        .timeline-item .info p {
-            font-size: 13px;
-            color: #5a6a82;
+
+        .wheel-card p {
+            font-size: 12px;
+            color: #7a8ba0;
+            font-weight: 300;
         }
+
+        .wheel-card .tag {
+            display: inline-block;
+            background: rgba(126, 168, 217, 0.06);
+            border: 1px solid rgba(126, 168, 217, 0.04);
+            padding: 1px 10px;
+            border-radius: 40px;
+            font-size: 9px;
+            color: #6a7a8a;
+            margin-top: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 700px) {
+            .wheel-card {
+                min-width: 140px;
+                max-width: 140px;
+                padding: 14px 12px;
+            }
+            .wheel-card h4 {
+                font-size: 14px;
+            }
+            .wheel-card p {
+                font-size: 10px;
+            }
+            .portfolio-wheel-horizontal {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .wheel-card {
+                min-width: 110px;
+                max-width: 110px;
+                padding: 10px 8px;
+            }
+            .wheel-card h4 {
+                font-size: 12px;
+            }
+            .wheel-card p {
+                font-size: 9px;
+            }
+            .wheel-card .year {
+                font-size: 10px;
+            }
+            .wheel-card .tag {
+                font-size: 7px;
+                padding: 0 6px;
+            }
+        }
+
         .process-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -484,13 +517,6 @@
         .about-item:hover {
             border-color: #7ea8d9;
             transform: scale(1.01);
-        }
-        .about-item .icon {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 30px;
-            color: #7ea8d9;
-            display: block;
-            margin-bottom: 6px;
         }
         .about-item h4 {
             font-family: 'Space Grotesk', sans-serif;
@@ -654,15 +680,6 @@
                 min-width: 200px;
                 padding: 20px 16px;
             }
-            .timeline-item {
-                flex-wrap: wrap;
-                gap: 8px;
-                padding: 12px 16px;
-            }
-            .timeline-item .year {
-                min-width: 40px;
-                font-size: 12px;
-            }
             .contacts-block {
                 padding: 20px;
             }
@@ -742,19 +759,16 @@
 
         <div class="services-scroll">
             <div class="service-card">
-                <span class="icon">[B]</span>
                 <h3>Telegram-боты</h3>
                 <p>Запись, опросы, уведомления, продажи. Админ-панель, напоминания, статистика.</p>
                 <div class="price-tag">от 5 000 ₽</div>
             </div>
             <div class="service-card">
-                <span class="icon">[W]</span>
                 <h3>Сайты-визитки</h3>
                 <p>Одностраничные сайты для салонов, кафе, мастеров. Адаптив под телефон.</p>
                 <div class="price-tag">от 10 000 ₽</div>
             </div>
             <div class="service-card">
-                <span class="icon">[S]</span>
                 <h3>Интернет-магазины</h3>
                 <p>Каталог, корзина, оплата, админ-панель. На базе Telegram или сайта.</p>
                 <div class="price-tag">от 35 000 ₽</div>
@@ -764,85 +778,81 @@
         <h2 class="section-title" id="portfolio" style="margin-top:50px;">Портфолио</h2>
         <span class="section-sub">Реализованные проекты</span>
 
-        <div class="timeline">
-            <div class="timeline-item">
-                <span class="year">2026</span>
-                <span class="dot"></span>
-                <div class="info">
+        <div class="portfolio-wheel-horizontal" id="wheelContainer">
+            <div class="wheel-track auto-scroll" id="wheelTrack">
+                <!-- Первая копия -->
+                <div class="wheel-card">
+                    <span class="year">2026</span>
                     <h4>BlackSnow Nails</h4>
-                    <p>Бот для записи в студию маникюра + админ-панель</p>
+                    <p>Бот для записи</p>
+                    <span class="tag">Telegram</span>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <span class="year">2026</span>
-                <span class="dot"></span>
-                <div class="info">
+                <div class="wheel-card">
+                    <span class="year">2026</span>
                     <h4>Пушкин Арт Кафе</h4>
-                    <p>Сайт-меню с аккордеоном и анимациями</p>
+                    <p>Сайт-меню</p>
+                    <span class="tag">HTML/CSS</span>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <span class="year">2026</span>
-                <span class="dot"></span>
-                <div class="info">
+                <div class="wheel-card">
+                    <span class="year">2026</span>
                     <h4>Доставка еды</h4>
-                    <p>Бот для приёма заказов в ресторане</p>
+                    <p>Бот для заказов</p>
+                    <span class="tag">Telegram</span>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <span class="year">2026</span>
-                <span class="dot"></span>
-                <div class="info">
+                <div class="wheel-card">
+                    <span class="year">2026</span>
                     <h4>Фитнес-клуб</h4>
-                    <p>Сайт с расписанием и онлайн-записью</p>
+                    <p>Сайт с записью</p>
+                    <span class="tag">Сайт</span>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <span class="year">2026</span>
-                <span class="dot"></span>
-                <div class="info">
-                    <h4>Бот для салона красоты</h4>
-                    <p>Запись, напоминания, статистика, админка</p>
+                <div class="wheel-card">
+                    <span class="year">2026</span>
+                    <h4>Бот для салона</h4>
+                    <p>Запись + админка</p>
+                    <span class="tag">Telegram</span>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <span class="year">2026</span>
-                <span class="dot"></span>
-                <div class="info">
-                    <h4>Сайт-визитка для мастера</h4>
-                    <p>Адаптивный, тёмный стиль, кнопка записи</p>
+                <div class="wheel-card">
+                    <span class="year">2026</span>
+                    <h4>Сайт-визитка</h4>
+                    <p>Для мастера</p>
+                    <span class="tag">Сайт</span>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <span class="year">2026</span>
-                <span class="dot"></span>
-                <div class="info">
-                    <h4>Бот для опросов</h4>
-                    <p>Сбор обратной связи с автоматической отчётностью</p>
+                <!-- Вторая копия для бесконечности -->
+                <div class="wheel-card">
+                    <span class="year">2026</span>
+                    <h4>BlackSnow Nails</h4>
+                    <p>Бот для записи</p>
+                    <span class="tag">Telegram</span>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <span class="year">2026</span>
-                <span class="dot"></span>
-                <div class="info">
-                    <h4>Магазин одежды</h4>
-                    <p>Каталог, корзина, онлайн-оплата</p>
+                <div class="wheel-card">
+                    <span class="year">2026</span>
+                    <h4>Пушкин Арт Кафе</h4>
+                    <p>Сайт-меню</p>
+                    <span class="tag">HTML/CSS</span>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <span class="year">2026</span>
-                <span class="dot"></span>
-                <div class="info">
-                    <h4>Бот для HR</h4>
-                    <p>Автоматизация найма, фильтрация резюме</p>
+                <div class="wheel-card">
+                    <span class="year">2026</span>
+                    <h4>Доставка еды</h4>
+                    <p>Бот для заказов</p>
+                    <span class="tag">Telegram</span>
                 </div>
-            </div>
-            <div class="timeline-item">
-                <span class="year">2026</span>
-                <span class="dot"></span>
-                <div class="info">
-                    <h4>Лендинг для стартапа</h4>
-                    <p>Анимированный сайт-презентация продукта</p>
+                <div class="wheel-card">
+                    <span class="year">2026</span>
+                    <h4>Фитнес-клуб</h4>
+                    <p>Сайт с записью</p>
+                    <span class="tag">Сайт</span>
+                </div>
+                <div class="wheel-card">
+                    <span class="year">2026</span>
+                    <h4>Бот для салона</h4>
+                    <p>Запись + админка</p>
+                    <span class="tag">Telegram</span>
+                </div>
+                <div class="wheel-card">
+                    <span class="year">2026</span>
+                    <h4>Сайт-визитка</h4>
+                    <p>Для мастера</p>
+                    <span class="tag">Сайт</span>
                 </div>
             </div>
         </div>
@@ -878,17 +888,14 @@
 
         <div class="about-grid">
             <div class="about-item">
-                <span class="icon"></span>
                 <h4>Корень</h4>
                 <p>Создаю проекты с нуля, закладывая прочную основу для вашего бизнеса.</p>
             </div>
             <div class="about-item">
-                <span class="icon"></span>
                 <h4>Разработка</h4>
                 <p>Пишу чистый код, который легко поддерживать и развивать.</p>
             </div>
             <div class="about-item">
-                <span class="icon"></span>
                 <h4>Честность</h4>
                 <p>Говорю прямо: что могу, сколько стоит, сколько времени займёт.</p>
             </div>
@@ -1079,6 +1086,141 @@
                 const rect = container.getBoundingClientRect();
                 const s = Math.min(rect.width, rect.height, 300);
                 renderer.setSize(s, s);
+            });
+        })();
+
+        // ===== ДРАГ + КОЛЁСИКО МЫШКИ =====
+        (function() {
+            const container = document.getElementById('wheelContainer');
+            const track = document.getElementById('wheelTrack');
+
+            let isDragging = false;
+            let startX = 0;
+            let currentTranslate = 0;
+            let lastTranslate = 0;
+            let animationId = null;
+            let scrollTimeout = null;
+
+            // === Drag мышкой / пальцем ===
+            container.addEventListener('mousedown', startDrag);
+            container.addEventListener('touchstart', startDrag, { passive: true });
+            window.addEventListener('mousemove', moveDrag);
+            window.addEventListener('touchmove', moveDrag, { passive: false });
+            window.addEventListener('mouseup', endDrag);
+            window.addEventListener('touchend', endDrag, { passive: true });
+
+            // === Колёсико мышки ===
+            container.addEventListener('wheel', function(e) {
+                e.preventDefault();
+                const delta = e.deltaY > 0 ? -30 : 30;
+                const currentTransform = track.style.transform;
+                const match = currentTransform.match(/translateX\(([-\d.]+)px\)/);
+                let currentX = match ? parseFloat(match[1]) : 0;
+
+                // Если автопрокрутка активна — останавливаем её
+                if (track.classList.contains('auto-scroll')) {
+                    track.classList.remove('auto-scroll');
+                    track.classList.add('paused');
+                    track.style.animation = 'none';
+                    currentX = lastTranslate || 0;
+                }
+
+                let newX = currentX + delta;
+
+                // Ограничиваем, чтобы не улететь за край
+                const trackWidth = track.scrollWidth;
+                const containerWidth = container.clientWidth;
+                const maxTranslate = 0;
+                const minTranslate = -(trackWidth / 2 - containerWidth / 2);
+
+                if (newX > maxTranslate) newX = maxTranslate;
+                if (newX < minTranslate) newX = minTranslate;
+
+                track.style.transition = 'transform 0.15s ease-out';
+                track.style.transform = `translateX(${newX}px)`;
+                lastTranslate = newX;
+
+                // Сбрасываем таймер автопрокрутки
+                if (scrollTimeout) clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    track.style.transition = 'none';
+                    track.classList.remove('paused');
+                    track.classList.add('auto-scroll');
+                    track.style.animation = '';
+                    track.style.transform = '';
+                    lastTranslate = 0;
+                }, 2000);
+            }, { passive: false });
+
+            function startDrag(e) {
+                isDragging = true;
+                track.classList.remove('auto-scroll');
+                track.classList.add('paused');
+                const clientX = getClientX(e);
+                startX = clientX;
+                currentTranslate = lastTranslate;
+                track.style.animation = 'none';
+                track.style.transform = `translateX(${currentTranslate}px)`;
+                container.style.cursor = 'grabbing';
+                if (scrollTimeout) clearTimeout(scrollTimeout);
+                if (animationId) cancelAnimationFrame(animationId);
+            }
+
+            function moveDrag(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                const clientX = getClientX(e);
+                const diff = clientX - startX;
+                track.style.transform = `translateX(${currentTranslate + diff}px)`;
+            }
+
+            function endDrag(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                container.style.cursor = 'grab';
+                const transform = track.style.transform;
+                const match = transform.match(/translateX\(([-\d.]+)px\)/);
+                if (match) {
+                    lastTranslate = parseFloat(match[1]);
+                }
+                track.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                const trackWidth = track.scrollWidth;
+                const containerWidth = container.clientWidth;
+                const maxTranslate = 0;
+                const minTranslate = -(trackWidth / 2 - containerWidth / 2);
+
+                let targetTranslate = lastTranslate;
+                if (targetTranslate > maxTranslate) targetTranslate = maxTranslate;
+                if (targetTranslate < minTranslate) targetTranslate = minTranslate;
+
+                track.style.transform = `translateX(${targetTranslate}px)`;
+                lastTranslate = targetTranslate;
+
+                scrollTimeout = setTimeout(() => {
+                    track.style.transition = 'none';
+                    track.classList.remove('paused');
+                    track.classList.add('auto-scroll');
+                    track.style.animation = '';
+                    track.style.transform = '';
+                    lastTranslate = 0;
+                }, 3000);
+            }
+
+            function getClientX(e) {
+                if (e.touches) {
+                    return e.touches[0].clientX;
+                }
+                return e.clientX;
+            }
+
+            container.addEventListener('mouseenter', function() {
+                track.classList.add('paused');
+            });
+
+            container.addEventListener('mouseleave', function() {
+                if (!isDragging) {
+                    track.classList.remove('paused');
+                }
             });
         })();
     </script>
