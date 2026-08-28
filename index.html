@@ -1005,38 +1005,6 @@
             let rotationX = 0;
             let rotationY = 0;
 
-            let targetRotX = 0;
-            let targetRotY = 0;
-            let isFirstLoad = true;
-
-            function setInitialRotation() {
-                if (!navigator.geolocation) {
-                    targetRotX = 0;
-                    targetRotY = 0;
-                    return;
-                }
-
-                navigator.geolocation.getCurrentPosition(
-                    function(pos) {
-                        const lat = pos.coords.latitude;
-                        const lon = pos.coords.longitude;
-                        targetRotX = (lat / 180) * Math.PI;
-                        targetRotY = -(lon / 180) * Math.PI;
-                        isFirstLoad = false;
-                    },
-                    function() {
-                        targetRotX = 0;
-                        targetRotY = 0;
-                        isFirstLoad = false;
-                    }, {
-                        timeout: 5000,
-                        enableHighAccuracy: true
-                    }
-                );
-            }
-
-            setInitialRotation();
-
             container.addEventListener('mousedown', function(e) {
                 isDragging = true;
                 previousMouseX = e.clientX;
@@ -1052,7 +1020,6 @@
                 rotationX += deltaY * 0.005;
                 previousMouseX = e.clientX;
                 previousMouseY = e.clientY;
-                isFirstLoad = false;
             });
 
             window.addEventListener('mouseup', function() {
@@ -1088,7 +1055,6 @@
                 rotationX += deltaY * 0.005;
                 previousMouseX = touch.clientX;
                 previousMouseY = touch.clientY;
-                isFirstLoad = false;
             }, { passive: false });
 
             container.addEventListener('touchend', function(e) {
@@ -1099,13 +1065,8 @@
             function animate() {
                 requestAnimationFrame(animate);
 
-                if (!isDragging && isFirstLoad) {
-                    planet.rotation.x += (targetRotX - planet.rotation.x) * 0.02;
-                    planet.rotation.y += (targetRotY - planet.rotation.y) * 0.02;
-                } else {
-                    planet.rotation.x += (rotationX - planet.rotation.x) * 0.08;
-                    planet.rotation.y += (rotationY - planet.rotation.y) * 0.08;
-                }
+                planet.rotation.x += (rotationX - planet.rotation.x) * 0.08;
+                planet.rotation.y += (rotationY - planet.rotation.y) * 0.08;
 
                 stars.rotation.y += 0.0001;
 
