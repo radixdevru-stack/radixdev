@@ -50,13 +50,8 @@
             margin-left: 2px;
         }
         @keyframes blink {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         .header {
@@ -276,7 +271,6 @@
             opacity: 0.3;
         }
 
-        /* ===== УСЛУГИ — ЭКРАНЧИКИ ===== */
         .services-screens {
             display: flex;
             flex-direction: column;
@@ -293,12 +287,10 @@
             transition: 0.3s;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
-
         .service-screen:hover {
             border-color: #ffffff;
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
         }
-
         .service-screen .screen-header {
             display: flex;
             align-items: center;
@@ -308,24 +300,15 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             user-select: none;
         }
-
         .service-screen .screen-dot {
             width: 10px;
             height: 10px;
             border-radius: 50%;
             display: inline-block;
         }
-
-        .service-screen .screen-dot.red {
-            background: #ff5f57;
-        }
-        .service-screen .screen-dot.yellow {
-            background: #ffbd2e;
-        }
-        .service-screen .screen-dot.green {
-            background: #28c840;
-        }
-
+        .service-screen .screen-dot.red { background: #ff5f57; }
+        .service-screen .screen-dot.yellow { background: #ffbd2e; }
+        .service-screen .screen-dot.green { background: #28c840; }
         .service-screen .screen-title {
             font-size: 12px;
             color: #888888;
@@ -333,44 +316,37 @@
             font-weight: 400;
             letter-spacing: 0.5px;
         }
-
         .service-screen .screen-body {
             padding: 18px 22px 22px;
             font-size: 14px;
             line-height: 1.7;
             color: #cccccc;
         }
-
         .service-screen .screen-body .command {
             color: #ffffff;
             font-weight: 500;
             font-size: 17px;
             margin-bottom: 4px;
         }
-
         .service-screen .screen-body .command .cursor-blink {
             height: 0.9em;
             width: 8px;
         }
-
         .service-screen .screen-body .output {
             color: #aaaaaa;
             font-weight: 300;
             padding-left: 4px;
         }
-
         .service-screen .screen-body .output .highlight {
             color: #ffffff;
             font-weight: 400;
         }
-
         .service-screen .screen-body .tags {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
             margin-top: 8px;
         }
-
         .service-screen .screen-body .tags span {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.04);
@@ -380,7 +356,6 @@
             color: #666666;
             letter-spacing: 0.5px;
         }
-
         .service-screen .screen-body .price-line {
             font-size: 14px;
             color: #ffffff;
@@ -389,38 +364,283 @@
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             padding-top: 10px;
         }
-
         .service-screen .screen-body .price-line::before {
             content: '$ ';
             opacity: 0.4;
         }
 
-        @media (max-width: 700px) {
-            .service-screen .screen-body {
-                padding: 14px 16px;
-                font-size: 13px;
+        /* ===== ПОРТФОЛИО — КАРУСЕЛЬ ===== */
+        .portfolio-showcase {
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            margin: 30px auto 40px;
+            padding: 20px 0 30px;
+            overflow: visible;
+        }
+
+        .portfolio-carousel {
+            display: flex;
+            gap: 30px;
+            width: fit-content;
+            animation: carouselFloat 28s linear infinite;
+            will-change: transform;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .portfolio-carousel.paused {
+            animation-play-state: paused;
+        }
+
+        .portfolio-carousel.speed-up {
+            animation-duration: 12s;
+        }
+
+        @keyframes carouselFloat {
+            0% {
+                transform: translateX(0);
             }
-            .service-screen .screen-body .command {
-                font-size: 15px;
+            100% {
+                transform: translateX(-50%);
             }
         }
+
+        .portfolio-card-3d {
+            min-width: 280px;
+            max-width: 280px;
+            background: #0f0f0f;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 24px 22px;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+            flex-shrink: 0;
+            backdrop-filter: blur(10px);
+            background: rgba(15, 15, 15, 0.9);
+            transform-style: preserve-3d;
+            overflow: hidden;
+        }
+
+        .portfolio-card-3d::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 16px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 40%, transparent 60%, rgba(255, 255, 255, 0.03));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* КРУГЛОЕ СВЕЧЕНИЕ */
+        .portfolio-card-3d .card-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: 16px;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.06) 0%, transparent 60%);
+        }
+
+        .portfolio-card-3d:hover .card-glow {
+            opacity: 1;
+        }
+
+        .portfolio-card-3d > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .portfolio-card-3d:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .portfolio-card-3d .card-icon {
+            font-size: 26px;
+            margin-bottom: 12px;
+            opacity: 0.4;
+            display: block;
+            letter-spacing: 0;
+            line-height: 1;
+        }
+
+        .portfolio-card-3d .project-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 6px;
+            letter-spacing: -0.3px;
+        }
+
+        .portfolio-card-3d .project-desc {
+            font-size: 14px;
+            color: #aaaaaa;
+            line-height: 1.7;
+            font-weight: 300;
+            margin-bottom: 16px;
+            opacity: 0.85;
+        }
+
+        .portfolio-card-3d .project-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .portfolio-card-3d .project-tags span {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 3px 14px;
+            border-radius: 20px;
+            font-size: 9px;
+            color: #888888;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .portfolio-card-3d .project-link {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 14px;
+            display: inline-block;
+            transition: 0.3s;
+            width: 100%;
+            text-align: center;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .portfolio-card-3d .project-link::before {
+            content: '→ ';
+            opacity: 0.4;
+        }
+
+        .portfolio-card-3d .project-link:hover {
+            color: #ffffff;
+            border-top-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .portfolio-controls {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .portfolio-controls button {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #888888;
+            padding: 8px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            transition: 0.3s;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .portfolio-controls button:hover {
+            border-color: #ffffff;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .portfolio-controls button.active {
+            border-color: #ffffff;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .particle-field {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ffffff;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFloat linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(100%) scale(0);
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) scale(1);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .portfolio-card-3d {
+                min-width: 220px;
+                max-width: 220px;
+                padding: 18px 16px;
+            }
+            .portfolio-card-3d .project-name {
+                font-size: 17px;
+            }
+            .portfolio-card-3d .project-desc {
+                font-size: 13px;
+            }
+        }
+
         @media (max-width: 480px) {
-            .service-screen .screen-body {
-                padding: 12px;
+            .portfolio-card-3d {
+                min-width: 170px;
+                max-width: 170px;
+                padding: 14px 12px;
+            }
+            .portfolio-card-3d .project-name {
+                font-size: 15px;
+            }
+            .portfolio-card-3d .project-desc {
                 font-size: 12px;
             }
-            .service-screen .screen-body .command {
-                font-size: 14px;
+            .portfolio-card-3d .card-icon {
+                font-size: 20px;
             }
-            .service-screen .screen-title {
-                font-size: 10px;
-            }
-            .service-screen .screen-header {
-                padding: 8px 12px;
-            }
-            .service-screen .screen-dot {
-                width: 8px;
-                height: 8px;
+            .portfolio-card-3d .project-tags span {
+                font-size: 7px;
+                padding: 2px 8px;
             }
         }
 
@@ -433,7 +653,6 @@
             overflow: hidden;
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
         }
-
         .terminal-header {
             display: flex;
             align-items: center;
@@ -443,24 +662,15 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             user-select: none;
         }
-
         .terminal-dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
             display: inline-block;
         }
-
-        .terminal-dot.red {
-            background: #ff5f57;
-        }
-        .terminal-dot.yellow {
-            background: #ffbd2e;
-        }
-        .terminal-dot.green {
-            background: #28c840;
-        }
-
+        .terminal-dot.red { background: #ff5f57; }
+        .terminal-dot.yellow { background: #ffbd2e; }
+        .terminal-dot.green { background: #28c840; }
         .terminal-title {
             font-size: 12px;
             color: #888888;
@@ -468,7 +678,6 @@
             font-weight: 400;
             letter-spacing: 0.5px;
         }
-
         .terminal-body {
             padding: 20px 24px 24px;
             font-family: 'JetBrains Mono', monospace;
@@ -479,50 +688,41 @@
             background: #0f0f0f;
             position: relative;
         }
-
         .terminal-body .line {
             display: block;
             margin-bottom: 2px;
             white-space: pre-wrap;
         }
-
         .terminal-body .prompt-line {
             color: #00ff41;
             font-weight: 400;
         }
-
         .terminal-body .prompt-line .path {
             color: #00aa33;
             opacity: 0.7;
         }
-
         .terminal-body .command-line {
             color: #ffffff;
             font-weight: 400;
         }
-
         .terminal-body .output-line {
             color: #aaaaaa;
             padding-left: 4px;
             font-weight: 300;
         }
-
         .terminal-body .output-line .highlight {
             color: #ffffff;
             font-weight: 400;
         }
-
         .terminal-body .status-line {
             color: #888888;
             font-size: 12px;
             margin-top: 4px;
             opacity: 0.6;
         }
-
         .terminal-body .status-line .ok {
             color: #00ff41;
         }
-
         .terminal-body .cursor-blink {
             height: 0.9em;
             width: 8px;
@@ -530,7 +730,6 @@
             display: inline-block;
             margin-left: 4px;
         }
-
         .terminal-body .separator {
             color: #333333;
             margin: 8px 0;
@@ -538,7 +737,6 @@
             border-top: 1px solid rgba(255, 255, 255, 0.02);
             padding-top: 8px;
         }
-
         @media (max-width: 700px) {
             .terminal-body {
                 padding: 16px;
@@ -581,7 +779,6 @@
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
             font-family: 'JetBrains Mono', monospace;
         }
-
         .fs-header {
             color: #888888;
             font-size: 13px;
@@ -591,11 +788,7 @@
             display: flex;
             gap: 30px;
         }
-
-        .fs-header span {
-            opacity: 0.6;
-        }
-
+        .fs-header span { opacity: 0.6; }
         .fs-item {
             display: flex;
             align-items: center;
@@ -607,12 +800,10 @@
             text-decoration: none;
             color: #cccccc;
         }
-
         .fs-item:hover {
             background: rgba(255, 255, 255, 0.02);
             color: #ffffff;
         }
-
         .fs-item .icon {
             font-size: 16px;
             color: #00ff41;
@@ -620,48 +811,33 @@
             text-align: center;
             flex-shrink: 0;
         }
-
         .fs-item .name {
             font-size: 15px;
             font-weight: 400;
         }
-
         .fs-item .name .highlight {
             color: #ffffff;
             font-weight: 500;
         }
-
         .fs-item .size {
             font-size: 12px;
             color: #666666;
             margin-left: auto;
             white-space: nowrap;
         }
-
         .fs-item .perm {
             font-size: 11px;
             color: #444444;
             margin-left: 8px;
             white-space: nowrap;
         }
-
         .fs-item .arrow {
             color: #333333;
             margin: 0 4px;
         }
-
-        .fs-dir .icon {
-            color: #ffbd2e;
-        }
-
-        .fs-file .icon {
-            color: #00ff41;
-        }
-
-        .fs-exec .icon {
-            color: #ff5f57;
-        }
-
+        .fs-dir .icon { color: #ffbd2e; }
+        .fs-file .icon { color: #00ff41; }
+        .fs-exec .icon { color: #ff5f57; }
         .fs-readme {
             margin-top: 14px;
             padding-top: 12px;
@@ -670,16 +846,13 @@
             font-size: 13px;
             line-height: 1.7;
         }
-
         .fs-readme .highlight {
             color: #ffffff;
         }
-
         .fs-readme .cursor-blink {
             height: 0.8em;
             width: 6px;
         }
-
         .fs-prompt {
             color: #00ff41;
             font-size: 13px;
@@ -687,164 +860,20 @@
             padding-top: 10px;
             border-top: 1px solid rgba(255, 255, 255, 0.02);
         }
-
         .fs-prompt .path {
             color: #00aa33;
             opacity: 0.7;
         }
-
         @media (max-width: 700px) {
-            .fs-container {
-                padding: 16px;
-            }
-            .fs-item .size {
-                display: none;
-            }
-            .fs-item .perm {
-                display: none;
-            }
+            .fs-container { padding: 16px; }
+            .fs-item .size { display: none; }
+            .fs-item .perm { display: none; }
         }
         @media (max-width: 480px) {
-            .fs-container {
-                padding: 12px;
-            }
-            .fs-header {
-                font-size: 11px;
-                gap: 16px;
-            }
-            .fs-item .name {
-                font-size: 13px;
-            }
-            .fs-item .icon {
-                font-size: 14px;
-                width: 20px;
-            }
-        }
-
-        .portfolio-wheel-horizontal {
-            position: relative;
-            width: 100%;
-            max-width: 1000px;
-            margin: 30px auto 50px;
-            overflow: hidden;
-            padding: 20px 0;
-            cursor: grab;
-            touch-action: none;
-            user-select: none;
-        }
-        .portfolio-wheel-horizontal:active {
-            cursor: grabbing;
-        }
-        .wheel-track {
-            display: flex;
-            gap: 24px;
-            width: fit-content;
-            transition: none;
-            will-change: transform;
-        }
-        .wheel-track.auto-scroll {
-            animation: wheelSpin 25s linear infinite;
-        }
-        .wheel-track.paused {
-            animation-play-state: paused;
-        }
-        @keyframes wheelSpin {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-        .wheel-card {
-            min-width: 180px;
-            max-width: 180px;
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 4px;
-            padding: 18px 16px;
-            text-align: center;
-            transition: 0.3s;
-            flex-shrink: 0;
-            backdrop-filter: blur(4px);
-        }
-        .wheel-card:hover {
-            border-color: #ffffff;
-            background: rgba(255, 255, 255, 0.02);
-            transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(255, 255, 255, 0.02);
-        }
-        .wheel-card .year {
-            font-size: 13px;
-            font-weight: 500;
-            color: #ffffff;
-            display: block;
-            margin-bottom: 4px;
-            opacity: 0.5;
-        }
-        .wheel-card .year::before {
-            content: '[';
-        }
-        .wheel-card .year::after {
-            content: ']';
-        }
-        .wheel-card h4 {
-            font-size: 17px;
-            color: #ffffff;
-            margin-bottom: 2px;
-        }
-        .wheel-card p {
-            font-size: 12px;
-            color: #888888;
-            font-weight: 300;
-        }
-        .wheel-card .tag {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            padding: 1px 10px;
-            border-radius: 4px;
-            font-size: 9px;
-            color: #666666;
-            margin-top: 6px;
-            letter-spacing: 0.5px;
-        }
-
-        @media (max-width: 700px) {
-            .wheel-card {
-                min-width: 140px;
-                max-width: 140px;
-                padding: 14px 12px;
-            }
-            .wheel-card h4 {
-                font-size: 14px;
-            }
-            .wheel-card p {
-                font-size: 10px;
-            }
-            .portfolio-wheel-horizontal {
-                max-width: 100%;
-            }
-        }
-        @media (max-width: 480px) {
-            .wheel-card {
-                min-width: 110px;
-                max-width: 110px;
-                padding: 10px 8px;
-            }
-            .wheel-card h4 {
-                font-size: 12px;
-            }
-            .wheel-card p {
-                font-size: 9px;
-            }
-            .wheel-card .year {
-                font-size: 10px;
-            }
-            .wheel-card .tag {
-                font-size: 7px;
-                padding: 0 6px;
-            }
+            .fs-container { padding: 12px; }
+            .fs-header { font-size: 11px; gap: 16px; }
+            .fs-item .name { font-size: 13px; }
+            .fs-item .icon { font-size: 14px; width: 20px; }
         }
 
         .contacts-block {
@@ -1071,9 +1100,7 @@
         <h2 class="section-title" id="services">Услуги</h2>
         <span class="section-sub">Что я делаю</span>
 
-        <!-- ===== УСЛУГИ — ЭКРАНЧИКИ (РУССКИЙ) ===== -->
         <div class="services-screens">
-
             <div class="service-screen">
                 <div class="screen-header">
                     <span class="screen-dot red"></span>
@@ -1136,7 +1163,155 @@
                     <div class="price-line">от 35 000 ₽</div>
                 </div>
             </div>
+        </div>
 
+        <h2 class="section-title" id="portfolio">Портфолио</h2>
+        <span class="section-sub">Реализованные проекты</span>
+
+        <div class="portfolio-showcase">
+            <div class="particle-field" id="particleField"></div>
+            <div class="portfolio-carousel" id="portfolioCarousel">
+                <!-- Карточка 1: BlackSnow Nails -->
+                <div class="portfolio-card-3d">
+                    <div class="card-glow"></div>
+                    <span class="card-icon">◈</span>
+                    <div class="project-name">BlackSnow Nails</div>
+                    <div class="project-desc">Сайт-визитка для студии маникюра в контрастной эстетике. Онлайн-запись, портфолио.</div>
+                    <div class="project-tags">
+                        <span>HTML/CSS</span>
+                        <span>Адаптив</span>
+                        <span>Дизайн</span>
+                    </div>
+                    <a href="https://blacksnownails.ru" target="_blank" class="project-link">Перейти на сайт</a>
+                </div>
+
+                <!-- Карточка 2: AutoService Bot -->
+                <div class="portfolio-card-3d">
+                    <div class="card-glow"></div>
+                    <span class="card-icon">◈</span>
+                    <div class="project-name">AutoService Bot</div>
+                    <div class="project-desc">Telegram-бот для автосервиса: запись, уведомления, каталог услуг и админ-панель.</div>
+                    <div class="project-tags">
+                        <span>Python</span>
+                        <span>PostgreSQL</span>
+                        <span>Telegram API</span>
+                    </div>
+                    <a href="#" class="project-link">Смотреть проект</a>
+                </div>
+
+                <!-- Карточка 3: Beauty Studio Landing -->
+                <div class="portfolio-card-3d">
+                    <div class="card-glow"></div>
+                    <span class="card-icon">◈</span>
+                    <div class="project-name">Beauty Studio Landing</div>
+                    <div class="project-desc">Адаптивный лендинг для студии красоты с онлайн-записью и портфолио.</div>
+                    <div class="project-tags">
+                        <span>HTML/CSS</span>
+                        <span>JavaScript</span>
+                        <span>Адаптив</span>
+                    </div>
+                    <a href="#" class="project-link">Смотреть проект</a>
+                </div>
+
+                <!-- Карточка 4: Marketplace Bot -->
+                <div class="portfolio-card-3d">
+                    <div class="card-glow"></div>
+                    <span class="card-icon">◈</span>
+                    <div class="project-name">Marketplace Bot</div>
+                    <div class="project-desc">Магазин в Telegram с каталогом, корзиной и платёжным шлюзом.</div>
+                    <div class="project-tags">
+                        <span>Python</span>
+                        <span>Stripe</span>
+                        <span>Админка</span>
+                    </div>
+                    <a href="#" class="project-link">Смотреть проект</a>
+                </div>
+
+                <!-- Карточка 5: CRM Dashboard -->
+                <div class="portfolio-card-3d">
+                    <div class="card-glow"></div>
+                    <span class="card-icon">◈</span>
+                    <div class="project-name">CRM Dashboard</div>
+                    <div class="project-desc">Веб-интерфейс для управления клиентами, заказами и аналитикой в реальном времени.</div>
+                    <div class="project-tags">
+                        <span>React</span>
+                        <span>Node.js</span>
+                        <span>WebSocket</span>
+                    </div>
+                    <a href="#" class="project-link">Смотреть проект</a>
+                </div>
+
+                <!-- Дубли для бесконечной прокрутки -->
+                <div class="portfolio-card-3d">
+                    <div class="card-glow"></div>
+                    <span class="card-icon">◈</span>
+                    <div class="project-name">BlackSnow Nails</div>
+                    <div class="project-desc">Сайт-визитка для студии маникюра в контрастной эстетике. Онлайн-запись, портфолио.</div>
+                    <div class="project-tags">
+                        <span>HTML/CSS</span>
+                        <span>Адаптив</span>
+                        <span>Дизайн</span>
+                    </div>
+                    <a href="https://blacksnownails.ru" target="_blank" class="project-link">Перейти на сайт</a>
+                </div>
+
+                <div class="portfolio-card-3d">
+                    <div class="card-glow"></div>
+                    <span class="card-icon">◈</span>
+                    <div class="project-name">AutoService Bot</div>
+                    <div class="project-desc">Telegram-бот для автосервиса: запись, уведомления, каталог услуг и админ-панель.</div>
+                    <div class="project-tags">
+                        <span>Python</span>
+                        <span>PostgreSQL</span>
+                        <span>Telegram API</span>
+                    </div>
+                    <a href="#" class="project-link">Смотреть проект</a>
+                </div>
+
+                <div class="portfolio-card-3d">
+                    <div class="card-glow"></div>
+                    <span class="card-icon">◈</span>
+                    <div class="project-name">Beauty Studio Landing</div>
+                    <div class="project-desc">Адаптивный лендинг для студии красоты с онлайн-записью и портфолио.</div>
+                    <div class="project-tags">
+                        <span>HTML/CSS</span>
+                        <span>JavaScript</span>
+                        <span>Адаптив</span>
+                    </div>
+                    <a href="#" class="project-link">Смотреть проект</a>
+                </div>
+
+                <div class="portfolio-card-3d">
+                    <div class="card-glow"></div>
+                    <span class="card-icon">◈</span>
+                    <div class="project-name">Marketplace Bot</div>
+                    <div class="project-desc">Магазин в Telegram с каталогом, корзиной и платёжным шлюзом.</div>
+                    <div class="project-tags">
+                        <span>Python</span>
+                        <span>Stripe</span>
+                        <span>Админка</span>
+                    </div>
+                    <a href="#" class="project-link">Смотреть проект</a>
+                </div>
+
+                <div class="portfolio-card-3d">
+                    <div class="card-glow"></div>
+                    <span class="card-icon">◈</span>
+                    <div class="project-name">CRM Dashboard</div>
+                    <div class="project-desc">Веб-интерфейс для управления клиентами, заказами и аналитикой в реальном времени.</div>
+                    <div class="project-tags">
+                        <span>React</span>
+                        <span>Node.js</span>
+                        <span>WebSocket</span>
+                    </div>
+                    <a href="#" class="project-link">Смотреть проект</a>
+                </div>
+            </div>
+
+            <div class="portfolio-controls">
+                <button id="pauseBtn">Пауза</button>
+                <button id="speedBtn">Ускорить</button>
+            </div>
         </div>
 
         <h2 class="section-title" id="process" style="margin-top:50px;">Как я работаю</h2>
@@ -1174,7 +1349,7 @@
                 <span class="line status-line"><span class="ok">✓</span> проект запущен</span>
 
                 <span class="line separator"></span>
-                <span class="line output-line" style="color:#00ff41;">✅ процесс завершён успешно</span>
+                <span class="line output-line" style="color:#00ff41;">процесс завершён успешно</span>
                 <span class="line prompt-line">root@radix<span class="path">:~/process</span>$ <span class="cursor-blink"></span></span>
             </div>
         </div>
@@ -1462,125 +1637,71 @@
             };
         })();
 
-        // ===== БЕСКОНЕЧНОЕ КОЛЕСО =====
+        // ===== УПРАВЛЕНИЕ КАРУСЕЛЬЮ =====
         (function() {
-            const container = document.getElementById('wheelContainer');
-            const track = document.getElementById('wheelTrack');
+            const carousel = document.getElementById('portfolioCarousel');
+            const pauseBtn = document.getElementById('pauseBtn');
+            const speedBtn = document.getElementById('speedBtn');
+            const particleField = document.getElementById('particleField');
 
-            let isDragging = false;
-            let startX = 0;
-            let currentTranslate = 0;
-            let lastTranslate = 0;
-            let scrollTimeout = null;
+            let isPaused = false;
+            let isSpedUp = false;
 
-            function startAutoScroll() {
-                track.classList.remove('paused');
-                track.classList.add('auto-scroll');
-                track.style.animation = '';
-                track.style.transform = '';
-                lastTranslate = 0;
-            }
-
-            container.addEventListener('mousedown', startDrag);
-            container.addEventListener('touchstart', startDrag, { passive: true });
-            window.addEventListener('mousemove', moveDrag);
-            window.addEventListener('touchmove', moveDrag, { passive: false });
-            window.addEventListener('mouseup', endDrag);
-            window.addEventListener('touchend', endDrag, { passive: true });
-
-            container.addEventListener('wheel', function(e) {
-                e.preventDefault();
-                const delta = e.deltaY > 0 ? -30 : 30;
-
-                if (track.classList.contains('auto-scroll')) {
-                    track.classList.remove('auto-scroll');
-                    track.classList.add('paused');
-                    track.style.animation = 'none';
-                    track.style.transform = `translateX(${lastTranslate}px)`;
+            pauseBtn.addEventListener('click', function() {
+                isPaused = !isPaused;
+                if (isPaused) {
+                    carousel.classList.add('paused');
+                    pauseBtn.textContent = 'Play';
+                    pauseBtn.classList.add('active');
+                } else {
+                    carousel.classList.remove('paused');
+                    pauseBtn.textContent = 'Пауза';
+                    pauseBtn.classList.remove('active');
                 }
-
-                const currentTransform = track.style.transform;
-                const match = currentTransform.match(/translateX\(([-\d.]+)px\)/);
-                let currentX = match ? parseFloat(match[1]) : lastTranslate;
-                let newX = currentX + delta;
-
-                const trackWidth = track.scrollWidth;
-                const halfTrack = trackWidth / 2;
-                if (newX > 0) newX = newX - halfTrack;
-                if (newX < -halfTrack) newX = newX + halfTrack;
-
-                track.style.transition = 'transform 0.15s ease-out';
-                track.style.transform = `translateX(${newX}px)`;
-                lastTranslate = newX;
-
-                if (scrollTimeout) clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    startAutoScroll();
-                }, 2500);
-            }, { passive: false });
-
-            function startDrag(e) {
-                isDragging = true;
-                track.classList.remove('auto-scroll');
-                track.classList.add('paused');
-                const clientX = getClientX(e);
-                startX = clientX;
-                const currentTransform = track.style.transform;
-                const match = currentTransform.match(/translateX\(([-\d.]+)px\)/);
-                currentTranslate = match ? parseFloat(match[1]) : lastTranslate;
-                track.style.animation = 'none';
-                track.style.transform = `translateX(${currentTranslate}px)`;
-                container.style.cursor = 'grabbing';
-                if (scrollTimeout) clearTimeout(scrollTimeout);
-            }
-
-            function moveDrag(e) {
-                if (!isDragging) return;
-                e.preventDefault();
-                const clientX = getClientX(e);
-                const diff = clientX - startX;
-                let newX = currentTranslate + diff;
-
-                const trackWidth = track.scrollWidth;
-                const halfTrack = trackWidth / 2;
-                if (newX > 0) newX = newX - halfTrack;
-                if (newX < -halfTrack) newX = newX + halfTrack;
-
-                track.style.transform = `translateX(${newX}px)`;
-                lastTranslate = newX;
-            }
-
-            function endDrag(e) {
-                if (!isDragging) return;
-                isDragging = false;
-                container.style.cursor = 'grab';
-                track.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-                track.style.transform = `translateX(${lastTranslate}px)`;
-
-                scrollTimeout = setTimeout(() => {
-                    startAutoScroll();
-                }, 3000);
-            }
-
-            function getClientX(e) {
-                if (e.touches) {
-                    return e.touches[0].clientX;
-                }
-                return e.clientX;
-            }
-
-            container.addEventListener('mouseenter', function() {
-                track.classList.add('paused');
             });
 
-            container.addEventListener('mouseleave', function() {
-                if (!isDragging) {
-                    track.classList.remove('paused');
-                    track.classList.add('auto-scroll');
-                    track.style.animation = '';
-                    track.style.transform = '';
-                    lastTranslate = 0;
+            speedBtn.addEventListener('click', function() {
+                isSpedUp = !isSpedUp;
+                if (isSpedUp) {
+                    carousel.classList.add('speed-up');
+                    speedBtn.textContent = 'Замедлить';
+                    speedBtn.classList.add('active');
+                } else {
+                    carousel.classList.remove('speed-up');
+                    speedBtn.textContent = 'Ускорить';
+                    speedBtn.classList.remove('active');
                 }
+            });
+
+            // Частицы
+            function createParticles() {
+                const count = 30;
+                for (let i = 0; i < count; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.width = (Math.random() * 4 + 1) + 'px';
+                    particle.style.height = particle.style.width;
+                    particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                    particle.style.animationDelay = (Math.random() * 15) + 's';
+                    particle.style.opacity = Math.random() * 0.3 + 0.05;
+                    particleField.appendChild(particle);
+                }
+            }
+            createParticles();
+
+            // КРУГЛОЕ СВЕЧЕНИЕ ПО МЫШИ
+            document.querySelectorAll('.portfolio-card-3d').forEach(card => {
+                card.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    const glow = this.querySelector('.card-glow');
+                    if (glow) {
+                        glow.style.setProperty('--mouse-x', x + '%');
+                        glow.style.setProperty('--mouse-y', y + '%');
+                    }
+                });
             });
         })();
     </script>
