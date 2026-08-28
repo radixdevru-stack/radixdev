@@ -304,7 +304,7 @@
             margin-top: 12px;
         }
 
-        /* ===== КОЛЕСО С DRAG И SCROLL ===== */
+        /* ===== БЕСКОНЕЧНОЕ КОЛЕСО 360° ===== */
         .portfolio-wheel-horizontal {
             position: relative;
             width: 100%;
@@ -330,7 +330,7 @@
         }
 
         .wheel-track.auto-scroll {
-            animation: wheelSpin 25s linear infinite;
+            animation: wheelSpin 20s linear infinite;
         }
 
         .wheel-track.paused {
@@ -1089,7 +1089,7 @@
             });
         })();
 
-        // ===== ДРАГ + КОЛЁСИКО МЫШКИ =====
+        // ===== БЕСКОНЕЧНОЕ КОЛЕСО 360° =====
         (function() {
             const container = document.getElementById('wheelContainer');
             const track = document.getElementById('wheelTrack');
@@ -1098,10 +1098,18 @@
             let startX = 0;
             let currentTranslate = 0;
             let lastTranslate = 0;
-            let animationId = null;
             let scrollTimeout = null;
 
-            // === Drag мышкой / пальцем ===
+            // === Автопрокрутка ===
+            function startAutoScroll() {
+                track.classList.remove('paused');
+                track.classList.add('auto-scroll');
+                track.style.animation = '';
+                track.style.transform = '';
+                lastTranslate = 0;
+            }
+
+            // === Drag ===
             container.addEventListener('mousedown', startDrag);
             container.addEventListener('touchstart', startDrag, { passive: true });
             window.addEventListener('mousemove', moveDrag);
@@ -1109,47 +1117,37 @@
             window.addEventListener('mouseup', endDrag);
             window.addEventListener('touchend', endDrag, { passive: true });
 
-            // === Колёсико мышки ===
+            // === Колёсико мышки (бесконечное вращение) ===
             container.addEventListener('wheel', function(e) {
                 e.preventDefault();
                 const delta = e.deltaY > 0 ? -30 : 30;
-                const currentTransform = track.style.transform;
-                const match = currentTransform.match(/translateX\(([-\d.]+)px\)/);
-                let currentX = match ? parseFloat(match[1]) : 0;
 
-                // Если автопрокрутка активна — останавливаем её
                 if (track.classList.contains('auto-scroll')) {
                     track.classList.remove('auto-scroll');
                     track.classList.add('paused');
                     track.style.animation = 'none';
-                    currentX = lastTranslate || 0;
+                    track.style.transform = `translateX(${lastTranslate}px)`;
                 }
 
+                const currentTransform = track.style.transform;
+                const match = currentTransform.match(/translateX\(([-\d.]+)px\)/);
+                let currentX = match ? parseFloat(match[1]) : lastTranslate;
                 let newX = currentX + delta;
 
-                // Ограничиваем, чтобы не улететь за край
+                // Бесконечный цикл — перематываем
                 const trackWidth = track.scrollWidth;
-                const containerWidth = container.clientWidth;
-                const maxTranslate = 0;
-                const minTranslate = -(trackWidth / 2 - containerWidth / 2);
-
-                if (newX > maxTranslate) newX = maxTranslate;
-                if (newX < minTranslate) newX = minTranslate;
+                const halfTrack = trackWidth / 2;
+                if (newX > 0) newX = newX - halfTrack;
+                if (newX < -halfTrack) newX = newX + halfTrack;
 
                 track.style.transition = 'transform 0.15s ease-out';
                 track.style.transform = `translateX(${newX}px)`;
                 lastTranslate = newX;
 
-                // Сбрасываем таймер автопрокрутки
                 if (scrollTimeout) clearTimeout(scrollTimeout);
                 scrollTimeout = setTimeout(() => {
-                    track.style.transition = 'none';
-                    track.classList.remove('paused');
-                    track.classList.add('auto-scroll');
-                    track.style.animation = '';
-                    track.style.transform = '';
-                    lastTranslate = 0;
-                }, 2000);
+                    startAutoScroll();
+                }, 2500);
             }, { passive: false });
 
             function startDrag(e) {
@@ -1158,12 +1156,13 @@
                 track.classList.add('paused');
                 const clientX = getClientX(e);
                 startX = clientX;
-                currentTranslate = lastTranslate;
+                const currentTransform = track.style.transform;
+                const match = currentTransform.match(/translateX\(([-\d.]+)px\)/);
+                currentTranslate = match ? parseFloat(match[1]) : lastTranslate;
                 track.style.animation = 'none';
                 track.style.transform = `translateX(${currentTranslate}px)`;
                 container.style.cursor = 'grabbing';
                 if (scrollTimeout) clearTimeout(scrollTimeout);
-                if (animationId) cancelAnimationFrame(animationId);
             }
 
             function moveDrag(e) {
@@ -1171,38 +1170,26 @@
                 e.preventDefault();
                 const clientX = getClientX(e);
                 const diff = clientX - startX;
-                track.style.transform = `translateX(${currentTranslate + diff}px)`;
+                let newX = currentTranslate + diff;
+
+                const trackWidth = track.scrollWidth;
+                const halfTrack = trackWidth / 2;
+                if (newX > 0) newX = newX - halfTrack;
+                if (newX < -halfTrack) newX = newX + halfTrack;
+
+                track.style.transform = `translateX(${newX}px)`;
+                lastTranslate = newX;
             }
 
             function endDrag(e) {
                 if (!isDragging) return;
                 isDragging = false;
                 container.style.cursor = 'grab';
-                const transform = track.style.transform;
-                const match = transform.match(/translateX\(([-\d.]+)px\)/);
-                if (match) {
-                    lastTranslate = parseFloat(match[1]);
-                }
                 track.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-                const trackWidth = track.scrollWidth;
-                const containerWidth = container.clientWidth;
-                const maxTranslate = 0;
-                const minTranslate = -(trackWidth / 2 - containerWidth / 2);
-
-                let targetTranslate = lastTranslate;
-                if (targetTranslate > maxTranslate) targetTranslate = maxTranslate;
-                if (targetTranslate < minTranslate) targetTranslate = minTranslate;
-
-                track.style.transform = `translateX(${targetTranslate}px)`;
-                lastTranslate = targetTranslate;
+                track.style.transform = `translateX(${lastTranslate}px)`;
 
                 scrollTimeout = setTimeout(() => {
-                    track.style.transition = 'none';
-                    track.classList.remove('paused');
-                    track.classList.add('auto-scroll');
-                    track.style.animation = '';
-                    track.style.transform = '';
-                    lastTranslate = 0;
+                    startAutoScroll();
                 }, 3000);
             }
 
@@ -1213,6 +1200,7 @@
                 return e.clientX;
             }
 
+            // Остановка при наведении
             container.addEventListener('mouseenter', function() {
                 track.classList.add('paused');
             });
@@ -1220,6 +1208,10 @@
             container.addEventListener('mouseleave', function() {
                 if (!isDragging) {
                     track.classList.remove('paused');
+                    track.classList.add('auto-scroll');
+                    track.style.animation = '';
+                    track.style.transform = '';
+                    lastTranslate = 0;
                 }
             });
         })();
