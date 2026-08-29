@@ -369,7 +369,6 @@
             opacity: 0.4;
         }
 
-        /* ===== ПОРТФОЛИО — КАРУСЕЛЬ ===== */
         .portfolio-showcase {
             position: relative;
             width: 100%;
@@ -437,7 +436,6 @@
             z-index: 1;
         }
 
-        /* КРУГЛОЕ СВЕЧЕНИЕ */
         .portfolio-card-3d .card-glow {
             position: absolute;
             top: 0;
@@ -1171,7 +1169,6 @@
         <div class="portfolio-showcase">
             <div class="particle-field" id="particleField"></div>
             <div class="portfolio-carousel" id="portfolioCarousel">
-                <!-- Карточка 1: BlackSnow Nails -->
                 <div class="portfolio-card-3d">
                     <div class="card-glow"></div>
                     <span class="card-icon">◈</span>
@@ -1185,7 +1182,6 @@
                     <a href="https://blacksnownails.ru" target="_blank" class="project-link">Перейти на сайт</a>
                 </div>
 
-                <!-- Карточка 2: AutoService Bot -->
                 <div class="portfolio-card-3d">
                     <div class="card-glow"></div>
                     <span class="card-icon">◈</span>
@@ -1199,7 +1195,6 @@
                     <a href="#" class="project-link">Смотреть проект</a>
                 </div>
 
-                <!-- Карточка 3: Beauty Studio Landing -->
                 <div class="portfolio-card-3d">
                     <div class="card-glow"></div>
                     <span class="card-icon">◈</span>
@@ -1213,7 +1208,6 @@
                     <a href="#" class="project-link">Смотреть проект</a>
                 </div>
 
-                <!-- Карточка 4: Marketplace Bot -->
                 <div class="portfolio-card-3d">
                     <div class="card-glow"></div>
                     <span class="card-icon">◈</span>
@@ -1227,7 +1221,6 @@
                     <a href="#" class="project-link">Смотреть проект</a>
                 </div>
 
-                <!-- Карточка 5: CRM Dashboard -->
                 <div class="portfolio-card-3d">
                     <div class="card-glow"></div>
                     <span class="card-icon">◈</span>
@@ -1241,7 +1234,6 @@
                     <a href="#" class="project-link">Смотреть проект</a>
                 </div>
 
-                <!-- Дубли для бесконечной прокрутки -->
                 <div class="portfolio-card-3d">
                     <div class="card-glow"></div>
                     <span class="card-icon">◈</span>
@@ -1637,7 +1629,6 @@
             };
         })();
 
-        // ===== УПРАВЛЕНИЕ КАРУСЕЛЬЮ =====
         (function() {
             const carousel = document.getElementById('portfolioCarousel');
             const pauseBtn = document.getElementById('pauseBtn');
@@ -1673,7 +1664,6 @@
                 }
             });
 
-            // Частицы
             function createParticles() {
                 const count = 30;
                 for (let i = 0; i < count; i++) {
@@ -1690,7 +1680,6 @@
             }
             createParticles();
 
-            // КРУГЛОЕ СВЕЧЕНИЕ ПО МЫШИ
             document.querySelectorAll('.portfolio-card-3d').forEach(card => {
                 card.addEventListener('mousemove', function(e) {
                     const rect = this.getBoundingClientRect();
