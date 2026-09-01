@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подключить домен к сайту — от 1 500 ₽ | Radix Dev</title>
+    <meta name="description" content="Подключение домена к сайту. Настройка DNS, SSL-сертификат, привязка к хостингу. Ваш сайт будет доступен по вашему-домену.ru. Цена от 1 500 ₽.">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #0a0a0a;
+            color: #f0f0f0;
+            background-image: radial-gradient(ellipse at 20% 50%, rgba(255, 255, 255, 0.01), transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(255, 255, 255, 0.005), transparent 50%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+        ::selection {
+            background: #ffffff;
+            color: #0a0a0a;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.008) 0px, rgba(255, 255, 255, 0.008) 2px, transparent 2px, transparent 4px);
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+            display: inline-block;
+            width: 10px;
+            background: #ffffff;
+            height: 1.2em;
+            vertical-align: text-bottom;
+            margin-left: 2px;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .logo {
+            font-weight: 600;
+            font-size: 28px;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+        .logo span {
+            color: #ffffff;
+            opacity: 0.4;
+        }
+        .logo-sub {
+            font-size: 12px;
+            color: #888888;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-left: 6px;
+            opacity: 0.6;
+        }
+        .nav {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+        }
+        .nav a {
+            color: #aaaaaa;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            position: relative;
+            text-transform: uppercase;
+        }
+        .nav a::before {
+            content: '>';
+            margin-right: 4px;
+            opacity: 0.4;
+        }
+        .nav a:hover {
+            color: #ffffff;
+        }
+        .nav a:hover::after {
+            content: ' <--';
+            opacity: 0.4;
+        }
+
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 0 30px;
+            gap: 30px;
+        }
+        .hero-left {
+            flex: 1;
+            min-width: 280px;
+        }
+        .hero-left h1 {
+            font-size: 48px;
+            font-weight: 600;
+            color: #ffffff;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+        .hero-left h1 span {
+            color: #00ff41;
+        }
+        .hero-left p {
+            font-size: 16px;
+            color: #cccccc;
+            max-width: 460px;
+            margin: 16px 0 22px;
+            line-height: 1.7;
+            font-weight: 300;
+            opacity: 0.8;
+        }
+        .hero-btn {
+            display: inline-block;
+            background: transparent;
+            color: #ffffff;
+            padding: 12px 36px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            border: 1px solid #ffffff;
+            transition: 0.3s;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .hero-btn:hover {
+            background: #ffffff;
+            color: #0a0a0a;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.05);
+            transform: scale(1.02);
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 500;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            margin: 50px 0 10px;
+        }
+        .section-title::before {
+            content: '## ';
+            opacity: 0.3;
+        }
+        .section-sub {
+            font-size: 13px;
+            color: #666666;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 28px;
+            opacity: 0.6;
+        }
+        .section-sub::before {
+            content: '/// ';
+            opacity: 0.3;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 20px 0 30px;
+        }
+        .benefit-item {
+            background: #0f0f0f;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            padding: 24px 22px;
+            transition: 0.3s;
+        }
+        .benefit-item:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        .benefit-item .icon {
+            font-size: 28px;
+            opacity: 0.4;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .benefit-item h3 {
+            font-size: 18px;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+        .benefit-item p {
+            font-size: 14px;
+            color: #aaaaaa;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .price-block {
+            background: linear-gradient(135deg, #1a0a0a 0%, #2a1515 50%, #1a0a0a 100%);
+            border: 1px solid #ff3b3b;
+            border-radius: 12px;
+            padding: 30px 36px;
+            margin: 40px 0 30px;
+            max-width: 800px;
+            text-align: center;
+        }
+        .price-block .price {
+            font-size: 42px;
+            font-weight: 600;
+            color: #ff3b3b;
+        }
+        .price-block .label {
+            font-size: 16px;
+            color: #aaaaaa;
+            font-weight: 300;
+            margin: 6px 0 14px;
+        }
+        .price-block .desc {
+            font-size: 14px;
+            color: #888888;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contacts-block {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 4px;
+            padding: 28px 36px;
+            margin: 40px 0 30px;
+        }
+        .contacts-block .left {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .contacts-block .left .line {
+            font-size: 15px;
+            color: #999999;
+        }
+        .contacts-block .left .line::before {
+            content: '> ';
+            opacity: 0.3;
+        }
+        .contacts-block .left a {
+            color: #cccccc;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            padding-bottom: 2px;
+            transition: 0.3s;
+        }
+        .contacts-block .left a:hover {
+            color: #ffffff;
+            border-bottom-color: #ffffff;
+        }
+        .btn-outline {
+            background: transparent;
+            color: #ffffff;
+            padding: 12px 40px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: 0.3s;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .btn-outline:hover {
+            border-color: #ffffff;
+            color: #ffffff;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.02);
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 28px;
+            font-size: 13px;
+            color: #444444;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            margin-top: 20px;
+            letter-spacing: 1px;
+        }
+        .dev {
+            text-align: center;
+            font-size: 10px;
+            color: #222222;
+            margin-top: 14px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+        }
+        .dev a {
+            color: #333333;
+            text-decoration: none;
+        }
+        .dev a:hover {
+            color: #ffffff;
+        }
+
+        @media(max-width:820px) {
+            .hero {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .hero-left h1 {
+                font-size: 34px;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .price-block .price {
+                font-size: 32px;
+            }
+            .contacts-block {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
+            }
+        }
+        @media(max-width:480px) {
+            .hero-left h1 {
+                font-size: 28px;
+            }
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            .price-block {
+                padding: 20px 18px;
+            }
+            .price-block .price {
+                font-size: 28px;
+            }
+            .contacts-block {
+                padding: 20px;
+            }
+            .btn-outline {
+                padding: 10px 28px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <header class="header">
+            <div>
+                <span class="logo">Radix <span>Dev</span></span>
+                <span class="logo-sub">разработка</span>
+            </div>
+            <div class="nav">
+                <a href="index.html">Главная</a>
+                <a href="telegram-bot.html">Telegram-боты</a>
+                <a href="website.html">Сайты</a>
+                <a href="shop.html">Магазины</a>
+                <a href="domain.html">Домены</a>
+                <a href="#contacts">Контакты</a>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="hero-left">
+                <h1>Подключение домена <span>за 1 час</span></h1>
+                <p>
+                    Настройка DNS, привязка к хостингу, SSL-сертификат. Ваш сайт будет доступен по вашему адресу.<br>
+                    <span style="color:#888;font-size:14px;font-weight:300;">Без лишних сложностей. Всё настрою за вас.</span>
+                </p>
+                <a href="#contacts" class="hero-btn">Подключить домен</a>
+            </div>
+        </section>
+
+        <div class="section-title">Что я делаю</div>
+        <span class="section-sub">Этапы настройки</span>
+
+        <div class="benefits-grid">
+            <div class="benefit-item">
+                <span class="icon">◈</span>
+                <h3>Настройка DNS</h3>
+                <p>Правильно настрою DNS-записи, чтобы домен указывал на ваш хостинг.</p>
+            </div>
+            <div class="benefit-item">
+                <span class="icon">◈</span>
+                <h3>SSL-сертификат</h3>
+                <p>Подключу бесплатный SSL, чтобы сайт открывался по HTTPS.</p>
+            </div>
+            <div class="benefit-item">
+                <span class="icon">◈</span>
+                <h3>Привязка к хостингу</h3>
+                <p>Подключу домен к вашему хостингу или GitHub Pages.</p>
+            </div>
+            <div class="benefit-item">
+                <span class="icon">◈</span>
+                <h3>Проверка работы</h3>
+                <p>Проверю, что всё работает: сайт открывается, SSL активен.</p>
+            </div>
+            <div class="benefit-item">
+                <span class="icon">◈</span>
+                <h3>Инструкция</h3>
+                <p>Оставлю инструкцию, как управлять доменом в будущем.</p>
+            </div>
+            <div class="benefit-item">
+                <span class="icon">◈</span>
+                <h3>Поддержка</h3>
+                <p>Отвечаю на вопросы после настройки.</p>
+            </div>
+        </div>
+
+        <div class="price-block">
+            <div class="price">от 1 500 ₽</div>
+            <div class="label">подключение домена под ключ</div>
+            <div class="desc">
+                Цена фиксированная. Включены все этапы: DNS, SSL, привязка, проверка.<br>
+                Срочная настройка — от 2 500 ₽ за 1 час.
+            </div>
+        </div>
+
+        <div class="contacts-block" id="contacts">
+            <div class="left">
+                <div class="line"><a href="https://t.me/RadixDevOfficial" target="_blank">@RadixDevOfficial</a></div>
+                <div class="line"><a href="tel:+79933262602">+7 (993) 326-26-02</a></div>
+                <div class="line"><a href="mailto:radixdev.shop@gmail.com">radixdev.shop@gmail.com</a></div>
+            </div>
+            <div>
+                <a href="https://t.me/RadixDevOfficial" target="_blank" class="btn-outline">Написать</a>
+            </div>
+        </div>
+
+        <footer class="footer">
+            2026 · Radix Dev · разработка ботов и сайтов
+        </footer>
+        <div class="dev">
+            <a href="#">Россия</a> · <a href="#">сделано с вниманием</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
